@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Page Title</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <!-- <link rel='stylesheet' type='text/css' media='screen' href='main.css'> -->
+    <script src='proyeccion.js'></script>
+</head>
+<body>
+    <h1>Dos vectores</h1>
+    <form>
+        <label>vector U</label>
+        <p> x:
+            <input type="number" name="vector1U"> 
+        </p>
+        <p> y:
+            <input type="number" name="vector1U"> 
+        </p>
+        <label>vector V</label>
+        <p> x:
+            <input type="number" name="vector1V"> 
+        </p>
+        <p> y:
+            <input type="number" name="vector1V"> 
+        </p>
+        <p>
+            <input type="button" value="Calcular"  onclick="resultado.value = '['+proyeccion([Number(vector1U[0].value),Number(vector1U[1].value)],[Number(vector1V[0].value),Number(vector1V[1].value)])+']'"><br>
+            <input type="text" name="resultado" >       
+        </p>
+    </form>
+    <h1>Tres vectores</h1>
+    <form>
+        <label>vector U</label>
+        <p> x:
+            <input type="number" name="vector2U"> 
+        </p>
+        <p> y:
+            <input type="number" name="vector2U"> 
+        </p>
+        <p> z:
+            <input type="number" name="vector2U"> 
+        </p>
+        <label>vector V</label>
+        <p> x:
+            <input type="number" name="vector2V"> 
+        </p>
+        <p> y:
+            <input type="number" name="vector2V"> 
+        </p>
+        <p> z:
+            <input type="number" name="vector2V"> 
+        </p>
+        <p>
+            <input type="button" value="calcular"  onclick="resultado2.value = '['+proyeccion([Number(vector2U[0].value),Number(vector2U[1].value),Number(vector2U[2].value)],[Number(vector2V[0].value),Number(vector2V[1].value),Number(vector2V[2].value)])+']'""><br>
+            <input type="text" name="resultado2" >       
+        </p>
+
+    </form>
+</body>
+</html>
