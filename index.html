@@ -6,7 +6,8 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <script src='Proyeccion_de_un_vector/proyeccion.js'></script>
+    <script src='libreria_algebra_lineal/proyeccion.js'></script>
+    <script src='libreria_algebra_lineal/Algebra_lineal.js'></script>
 </head>
 
 <body>
@@ -67,9 +68,47 @@
     </section>
     <section>
         <h1>Ejercicio 2: Resolución de problemas básicos sobre vectores en R2 y R3</h1>
+        <img src="libreria_algebra_lineal/algebra_lineal_ejercicio2_R2_R3.png" >
+        <form>
+            <ul> 
+                <li>
+                    <p>Vector U</p>  </br>
+                    <label>X</label>
+                    <input type="number" name="U_ejercicio2" /> </br>
+                    <label>Y</label>
+                    <input type="number" name="U_ejercicio2" /> </br>
+                    <label>Z</label>
+                    <input type="number" name="U_ejercicio2" /> </br>
+                </li>           
+                <li>
+                    <p>Vector v</p>  </br>
+                    <label>X</label>
+                    <input type="number" name="V_ejercicio2" /> </br>
+                    <label>Y</label>
+                    <input type="number" name="V_ejercicio2" /> </br>
+                    <label>Z</label>
+                    <input type="number" name="V_ejercicio2" /> </br>
+                </li>
+            </ul>
+            <input type="button" value="Resolver" onclick="ejecutarEjercicio2()" /> <br>
+            <input type="text" name="resultado_ejercicio2">
+        </form>
     </section>
     <script>
-
+       let algebra_lineal = new Algebra_lineal();
+       function ejecutarEjercicio2(){
+            let u =[
+                Number(document.getElementsByName("U_ejercicio2")[0].value),
+                Number(document.getElementsByName("U_ejercicio2")[1].value),
+                Number(document.getElementsByName("U_ejercicio2")[2].value) 
+            ];
+            let v =[
+                Number(document.getElementsByName("V_ejercicio2")[0].value),
+                Number(document.getElementsByName("V_ejercicio2")[1].value),
+                Number(document.getElementsByName("V_ejercicio2")[2].value) 
+            ];
+            document.getElementsByName("resultado_ejercicio2")[0].value =algebra_lineal.productoCruz_2X3(algebra_lineal.multiplicarVector(-2,u), algebra_lineal.sumarVector(algebra_lineal.multiplicarVector(-3,u),algebra_lineal.multiplicarVector(2,v)));
+       }
         function proyeccionR2(vectorU, vectorV) {
             let reflejo = proyeccion([vectorU[0], vectorU[1]], [vectorV[0], vectorV[1]])
             ejercicio1(vectorU, vectorV, reflejo);
