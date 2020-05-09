@@ -74,28 +74,128 @@
                 <li>
                     <p>Vector U</p>  </br>
                     <label>X</label>
-                    <input type="number" name="U_ejercicio2" /> </br>
+                    <input type="number" name="U_ejercicio2" value="2"  /> </br>
                     <label>Y</label>
-                    <input type="number" name="U_ejercicio2" /> </br>
+                    <input type="number" name="U_ejercicio2" value="-1" /> </br>
                     <label>Z</label>
-                    <input type="number" name="U_ejercicio2" /> </br>
+                    <input type="number" name="U_ejercicio2" value="4" /> </br>
                 </li>           
                 <li>
                     <p>Vector v</p>  </br>
                     <label>X</label>
-                    <input type="number" name="V_ejercicio2" /> </br>
+                    <input type="number" name="V_ejercicio2" value="-4" /> </br>
                     <label>Y</label>
-                    <input type="number" name="V_ejercicio2" /> </br>
+                    <input type="number" name="V_ejercicio2" value="5" /> </br>
                     <label>Z</label>
-                    <input type="number" name="V_ejercicio2" /> </br>
+                    <input type="number" name="V_ejercicio2" value="-2" /> </br>
                 </li>
             </ul>
             <input type="button" value="Resolver" onclick="ejecutarEjercicio2()" /> <br>
             <input type="text" name="resultado_ejercicio2">
         </form>
     </section>
+    <section>
+        <h1>Ejercicios 3: Resolución de problemas básicos sobre matrices y determinantes.</h1>
+        <img src="libreria_algebra_lineal/ejercicio_3_matriz.png" >
+        <form>
+            <ul> 
+                <li>
+                    <p>Matrix A</p>  </br>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="1" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="-2"/> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="1"/> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="5" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="0" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_A3" value="-3" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </li>           
+                <li>
+                    <p>Matrix B</p>  </br>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="0.3333333333333333"/> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="0" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="2" /> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="2" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="-3" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_B3" value="-1" /> 
+                            </td>
+                        </tr>
+                    </table>
+                </li> 
+                <li>
+                    <p>Matrix D</p>  </br>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="-1" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="2" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="-2" /> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="4"/> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="-3" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_D3" value="-1"/> 
+                            </td>
+                        </tr>
+                    </table>
+                </li> 
+            </ul>
+            <input type="button" value="Resolver" onclick="ejecutarEjercicio3()" /> <br>
+            <input type="text" name="resultado_ejercicio3">
+        </form>
+    </section>
     <script>
        let algebra_lineal = new Algebra_lineal();
+       function ejecutarEjercicio3(){
+            let A = [[Number(document.getElementsByName("Matrix_A3")[0].value),Number(document.getElementsByName("Matrix_A3")[1].value),Number(document.getElementsByName("Matrix_A3")[2].value)],
+            [Number(document.getElementsByName("Matrix_A3")[3].value),Number(document.getElementsByName("Matrix_A3")[4].value),Number(document.getElementsByName("Matrix_A3")[5].value)]]
+            let B = [[Number(document.getElementsByName("Matrix_B3")[0].value),Number(document.getElementsByName("Matrix_B3")[1].value),Number(document.getElementsByName("Matrix_B3")[2].value)],
+            [Number(document.getElementsByName("Matrix_B3")[3].value),Number(document.getElementsByName("Matrix_B3")[4].value),Number(document.getElementsByName("Matrix_B3")[5].value)]]
+            let D = [[Number(document.getElementsByName("Matrix_D3")[0].value),Number(document.getElementsByName("Matrix_D3")[1].value),Number(document.getElementsByName("Matrix_D3")[2].value)],
+            [Number(document.getElementsByName("Matrix_D3")[3].value),Number(document.getElementsByName("Matrix_D3")[4].value),Number(document.getElementsByName("Matrix_D3")[5].value)]]
+            document.getElementsByName("resultado_ejercicio3")[0].value = JSON.stringify(algebra_lineal.sumarMatrix(algebra_lineal.multiplicarVectorMatrix(-3,algebra_lineal.sumarMatrix(A,B)),algebra_lineal.multiplicarVectorMatrix(-2,D)))
+       }
        function ejecutarEjercicio2(){
             let u =[
                 Number(document.getElementsByName("U_ejercicio2")[0].value),
@@ -107,7 +207,7 @@
                 Number(document.getElementsByName("V_ejercicio2")[1].value),
                 Number(document.getElementsByName("V_ejercicio2")[2].value) 
             ];
-            document.getElementsByName("resultado_ejercicio2")[0].value =algebra_lineal.productoCruz_2X3(algebra_lineal.multiplicarVector(-2,u), algebra_lineal.sumarVector(algebra_lineal.multiplicarVector(-3,u),algebra_lineal.multiplicarVector(2,v)));
+            document.getElementsByName("resultado_ejercicio2")[0].value = JSON.stringify(algebra_lineal.productoCruz_2X3(algebra_lineal.multiplicarVector(-2,u), algebra_lineal.sumarVector(algebra_lineal.multiplicarVector(-3,u),algebra_lineal.multiplicarVector(2,v))));
        }
         function proyeccionR2(vectorU, vectorV) {
             let reflejo = proyeccion([vectorU[0], vectorU[1]], [vectorV[0], vectorV[1]])
