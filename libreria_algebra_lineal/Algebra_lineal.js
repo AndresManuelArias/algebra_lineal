@@ -1,6 +1,25 @@
+var A = [[1, -2, 1], [5, 0, -3]];
+var B = [[1 / 3, 0, 2], [2, -3, -1]];
+var C = [[3, 5], [0, -2], [-1, 1]];
+var D = [[-1, 2, -2], [4, -3, -1]];
 var Algebra_lineal = /** @class */ (function () {
     function Algebra_lineal() {
     }
+    Algebra_lineal.prototype.multiplicarVectorMatrix = function (escalar, matrix) {
+        var _this = this;
+        return matrix.map(function (fila) { return _this.multiplicarVector(escalar, fila); });
+    };
+    Algebra_lineal.prototype.sumarMatrix = function (matrix1, matrix2) {
+        var _this = this;
+        var sumas = [[]];
+        if (matrix1.length === matrix2.length) {
+            sumas = matrix1.map(function (fila, index) { return _this.sumarVector(fila, matrix2[index]); });
+        }
+        else {
+            throw "Los dos vectores no tienen el mismo tamaño ";
+        }
+        return sumas;
+    };
     Algebra_lineal.prototype.sumarVector = function (vector1, vector2) {
         var sumas = [];
         if (vector1.length === vector2.length) {
@@ -60,13 +79,11 @@ var Algebra_lineal = /** @class */ (function () {
         var vector3 = [];
         var _loop_1 = function (index) {
             debugger;
-            var primerIndice = 0;
-            var segundoIndice = 1;
             var nuevaMatriz2x2 = matrix.map(function (fila) { return fila.filter(function (n, i) { return i !== index - 1; }); });
             vector3.push(Math.pow(-1, index) * -1 * this_1.determinante(nuevaMatriz2x2));
         };
         var this_1 = this;
-        for (var index = 1; index <= vector1.length; index++) {
+        for (var index = 1; index <= 3; index++) {
             _loop_1(index);
         }
         return vector3;
