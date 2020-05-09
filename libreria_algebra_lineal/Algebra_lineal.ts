@@ -1,4 +1,20 @@
+let A:number[][]=[[1, -2, 1 ],[ 5 , 0, -3 ]];
+let B:number[][]=[[1/3, 0, 2 ],[ 2 , -3, -1 ]] ;
+let C:number[][]=[[3, 5 ],[ 0, -2 ],[ -1 ,1 ]];
+let D:number[][]=[[-1, 2, -2 ],[ 4 , -3, -1 ] ]  
 class Algebra_lineal {
+    multiplicarVectorMatrix(escalar:number,matrix:number[][]):number[][]{
+        return matrix.map((fila:number[])=>this.multiplicarVector(escalar,fila))    
+    }
+    sumarMatrix(matrix1:number[][],matrix2:number[][]):number[][]{
+        let sumas:number[][]= [[]];
+        if(matrix1.length === matrix2.length){ 
+            sumas =matrix1.map((fila:number[],index:number)=> this.sumarVector(fila,matrix2[index]))
+        }else {
+            throw "Los dos vectores no tienen el mismo tamaño ";
+        }
+        return sumas;
+    }
     sumarVector(vector1:number[],vector2:number[]):number[]{
         let sumas:number[]= [];
         if(vector1.length === vector2.length){          
