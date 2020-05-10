@@ -66,6 +66,14 @@ var Algebra_lineal = /** @class */ (function () {
         }
         return multipliaciones.reduce(function (a, b) { return a + b; });
     };
+    Algebra_lineal.prototype.menor = function (matrix, fila, columna) {
+        var nuevaMatriz2x2 = matrix.filter(function (filaVector, indexFila) { return indexFila !== (fila - 1); })
+            .map(function (fila) { return fila.filter(function (n, i) { return i !== columna - 1; }); });
+        return nuevaMatriz2x2;
+    };
+    Algebra_lineal.prototype.cofactor = function (matrix, fila, columna) {
+        return Math.pow(-1, fila + columna) * this.determinante(this.menor(matrix, fila, columna));
+    };
     Algebra_lineal.prototype.determinante = function (nuevaMatriz2x2) {
         var primerIndice = 0;
         var segundoIndice = 1;
@@ -77,14 +85,9 @@ var Algebra_lineal = /** @class */ (function () {
             vector2
         ];
         var vector3 = [];
-        var _loop_1 = function (index) {
-            debugger;
-            var nuevaMatriz2x2 = matrix.map(function (fila) { return fila.filter(function (n, i) { return i !== index - 1; }); });
-            vector3.push(Math.pow(-1, index) * -1 * this_1.determinante(nuevaMatriz2x2));
-        };
-        var this_1 = this;
         for (var index = 1; index <= 3; index++) {
-            _loop_1(index);
+            var nuevaMatriz2x2 = this.menor(matrix, 0, index);
+            vector3.push(this.cofactor(nuevaMatriz2x2, 0, index));
         }
         return vector3;
     };
