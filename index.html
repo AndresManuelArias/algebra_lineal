@@ -185,8 +185,70 @@
             <input type="text" name="resultado_ejercicio3">
         </form>
     </section>
+    <section>
+        <h1>Ejercicios 4: Resolución de problemas básicos sobre matrices y determinantes. </h1>
+        <img src="libreria_algebra_lineal/ejercicio_3_matriz.png" >
+        <form>
+            <ul> 
+                <li>
+                    <label>Indice</label> 
+                    <input type="number" min="0" max="3" name="Indice" />
+                    <label>columna </label>
+                    <input type="number" min="0" max="3" name="columna" />
+                </li>
+                <li>
+                    <p>Matrix D</p>  </br>
+                    <table>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="4" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="-3" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="6" /> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="2"/> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="1" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="3"/> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="-7"/> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="-6" /> 
+                            </td>
+                            <td>
+                                <input type="number" name="Matrix_C4" value="5"/> 
+                            </td>
+                        </tr>
+                    </table>
+                </li>
+            </ul>
+            <input type="button" value="Resolver" onclick="ejecutarEjercicio4()" /> <br>
+            <input type="text" name="resultado_ejercicio4">
+        </form>
+    </section>
     <script>
        let algebra_lineal = new Algebra_lineal();
+       function ejecutarEjercicio4(){
+            let C = [
+                [Number(document.getElementsByName("Matrix_C4")[0].value),Number(document.getElementsByName("Matrix_C4")[1].value),Number(document.getElementsByName("Matrix_C4")[2].value)],
+                [Number(document.getElementsByName("Matrix_C4")[3].value),Number(document.getElementsByName("Matrix_C4")[4].value),Number(document.getElementsByName("Matrix_C4")[5].value)],
+                [Number(document.getElementsByName("Matrix_C4")[6].value),Number(document.getElementsByName("Matrix_C4")[7].value),Number(document.getElementsByName("Matrix_C4")[8].value)]
+            ]
+            document.getElementsByName("resultado_ejercicio4")[0].value = JSON.stringify(algebra_lineal.cofactor(C,Number(document.getElementsByName("Indice")[0].value),Number(document.getElementsByName("columna")[0].value)))
+       }
        function ejecutarEjercicio3(){
             let A = [[Number(document.getElementsByName("Matrix_A3")[0].value),Number(document.getElementsByName("Matrix_A3")[1].value),Number(document.getElementsByName("Matrix_A3")[2].value)],
             [Number(document.getElementsByName("Matrix_A3")[3].value),Number(document.getElementsByName("Matrix_A3")[4].value),Number(document.getElementsByName("Matrix_A3")[5].value)]]

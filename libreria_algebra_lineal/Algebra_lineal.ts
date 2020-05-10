@@ -57,6 +57,14 @@ class Algebra_lineal {
         }
         return multipliaciones.reduce((a,b)=>a+b);
     }
+    menor(matrix:number[][],fila:number,columna:number):number[][]{
+        let nuevaMatriz2x2:number[][]=matrix.filter(function (filaVector, indexFila) { return indexFila !== (fila-1); })
+        .map(function (fila) { return fila.filter(function (n, i) { return i !== columna - 1; }); })
+        return nuevaMatriz2x2;
+    }
+    cofactor(matrix:number[][],fila:number,columna:number):number{
+       return Math.pow(-1, fila+columna) *this.determinante(this.menor(matrix,fila,columna))
+    }
     determinante(nuevaMatriz2x2:number[][]):number{
         let primerIndice:number=0;
         let segundoIndice:number= 1;
@@ -69,10 +77,8 @@ class Algebra_lineal {
         ]
         let vector3:number[]=[];
         for(let index = 1; index <= 3; index++){
-            debugger;
-            let nuevaMatriz2x2:number[][]=matrix.map((fila)=>fila.filter((n,i)=>i!==index-1))
-            vector3.push(Math.pow(-1, index)*-1*this.determinante(nuevaMatriz2x2));
-   
+            let nuevaMatriz2x2:number[][]=this.menor(matrix,0,index)
+            vector3.push(this.cofactor(nuevaMatriz2x2,0,index))   
         }
         return vector3;
     }
