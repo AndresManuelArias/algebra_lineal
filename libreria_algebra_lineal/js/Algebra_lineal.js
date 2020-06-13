@@ -1,9 +1,12 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Algebra_lineal = void 0;
 let A = [[1, -2, 1], [5, 0, -3]];
 let B = [[1 / 3, 0, 2], [2, -3, -1]];
 let C = [[3, 5], [0, -2], [-1, 1]];
 let D = [[-1, 2, -2], [4, -3, -1]];
 let prueba;
-export class Algebra_lineal {
+class Algebra_lineal {
     multiplicarVectorMatrix(escalar, matrix) {
         return matrix.map((fila) => this.multiplicarVector(escalar, fila));
     }
@@ -88,27 +91,27 @@ export class Algebra_lineal {
         }
         return vector3;
     }
+    //  sumarMatriz(Matriz1:number[][],Matriz2:number[][]):number[][]{
+    //     if(Matriz1.length  ==  Matriz2.length && Matriz1[Matriz1.length-1].length == Matriz2[Matriz2.length-1].length ){
+    //     }
+    //  }
     metodo_de_cramer(sistemaDatos) {
-        debugger;
+        // sistemaDatos = [[4,5,5],[-4,-10,-7]]
         let determinante_sistemaMatrix = sistemaDatos.map(a => a.filter((b, i) => i != a.length - 1));
-        let determinante_sistema = this.determinante_Laplace(determinante_sistemaMatrix);
-        let determinantesMatrix = [];
-        for (let index = 0; index < determinante_sistemaMatrix[0].length; index++) {
-            let nuevaMatrix = this.cambiarColumnaPorEstosDatos(determinante_sistemaMatrix, sistemaDatos, index);
-            console.log("nuevaMatrix", nuevaMatrix);
-            let determinanter = this.determinante_Laplace(nuevaMatrix);
-            determinantesMatrix.push(determinanter);
-        }
-        return determinantesMatrix.map((number) => number / determinante_sistema);
+        let determinante_sistema = this.determinante(determinante_sistemaMatrix);
+        let determinanteXMatrix = sistemaDatos.map(a => [a[a.length - 1], a[1]]);
+        let determinanteYMatrix = sistemaDatos.map(a => [a[0], a[a.length - 1]]);
+        let determinanteX = this.determinante(determinanteXMatrix);
+        let determinanteY = this.determinante(determinanteYMatrix);
+        let valorx = determinanteX / determinante_sistema;
+        let valory = determinanteY / determinante_sistema;
+        return [valorx, valory];
     }
-    determinante_Laplace(vector) {
-        return vector.length > 2 ? vector[vector.length - 1]
+    ddterminante_Laplace(vector) {
+        return vector[vector.length - 1]
             .map((dato, indexColumna) => this.cofactor(vector, vector.length, indexColumna + 1) * dato)
-            .reduce((a, b) => a + b) : this.determinante(vector);
-    }
-    cambiarColumnaPorEstosDatos(matrix, cambiarPor, columna_index) {
-        return matrix
-            .map((fila, indexFila) => fila.map((dato, indexColumna) => indexColumna == columna_index ? cambiarPor[indexFila][cambiarPor[indexFila].length - 1] : dato));
+            .reduce((a, b) => a + b);
     }
 }
+exports.Algebra_lineal = Algebra_lineal;
 //Método de Cramer 

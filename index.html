@@ -7,7 +7,10 @@
     <title>Page Title</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <script src='libreria_algebra_lineal/proyeccion.js'></script>
-    <script src='libreria_algebra_lineal/Algebra_lineal.js'></script>
+    <script type="module"  >
+    // import {Algebra_lineal} from './libreria_algebra_lineal/Algebra_lineal.js';
+    //     console.log(Algebra_lineal)
+    </script>
 </head>
 
 <body>
@@ -238,8 +241,12 @@
             <input type="text" name="resultado_ejercicio4">
         </form>
     </section>
-    <script>
-       let algebra_lineal = new Algebra_lineal();
+    <script   >
+        (async function(){
+            let _ =  await import('./libreria_algebra_lineal/Algebra_lineal.js')
+             algebra_lineal = new _.Algebra_lineal()
+        })()
+
        function ejecutarEjercicio4(){
             let C = [
                 [Number(document.getElementsByName("Matrix_C4")[0].value),Number(document.getElementsByName("Matrix_C4")[1].value),Number(document.getElementsByName("Matrix_C4")[2].value)],
@@ -316,7 +323,7 @@
 
         }
 
-
+        // python -m SimpleHTTPServer
     </script>
 
 
