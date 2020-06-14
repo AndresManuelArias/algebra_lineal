@@ -68,8 +68,14 @@ export class Algebra_lineal {
             .map(function (fila) { return fila.filter(function (n, i) { return i !== columna - 1; }); });
         return nuevaMatriz2x2;
     }
+    cofactorSinsigno(matrix, fila, columna) {
+        return this.determinante(this.menor(matrix, fila, columna));
+    }
     cofactor(matrix, fila, columna) {
-        return Math.pow(-1, fila + columna) * this.determinante(this.menor(matrix, fila, columna));
+        return this.signoCofactorSegunFilaColumna(fila, columna) * this.cofactorSinsigno(matrix, fila, columna);
+    }
+    signoCofactorSegunFilaColumna(fila, columna) {
+        return Math.pow(-1, fila + columna);
     }
     determinante(nuevaMatriz2x2) {
         let primerIndice = 0;
@@ -88,22 +94,28 @@ export class Algebra_lineal {
         }
         return vector3;
     }
+    quitarColumnaResultado(sistemaDatos) {
+        return sistemaDatos.map(a => a.filter((b, i) => i != a.length - 1));
+    }
+    agararColumnaResultado(sistemaDatos) {
+        return sistemaDatos.map(a => a.filter((b, i) => i == a.length - 1));
+    }
     metodo_de_cramer(sistemaDatos) {
         debugger;
-        let determinante_sistemaMatrix = sistemaDatos.map(a => a.filter((b, i) => i != a.length - 1));
+        let determinante_sistemaMatrix = this.quitarColumnaResultado(sistemaDatos);
         let determinante_sistema = this.determinante_Laplace(determinante_sistemaMatrix);
         let determinantesMatrix = [];
         for (let index = 0; index < determinante_sistemaMatrix[0].length; index++) {
             let nuevaMatrix = this.cambiarColumnaPorEstosDatos(determinante_sistemaMatrix, sistemaDatos, index);
-            console.log("nuevaMatrix", nuevaMatrix);
+            // console.log("nuevaMatrix",nuevaMatrix)
             let determinanter = this.determinante_Laplace(nuevaMatrix);
             determinantesMatrix.push(determinanter);
         }
         return determinantesMatrix.map((number) => number / determinante_sistema);
     }
-    determinante_Laplace(vector) {
-        return vector.length > 2 ? vector[vector.length - 1]
-            .map((dato, indexColumna) => this.cofactor(vector, vector.length, indexColumna + 1) * dato)
+    determinante_Laplace(vector, fila = 1) {
+        return vector.length > 2 ? vector[fila - 1]
+            .map((dato, indexColumna) => this.cofactor(vector, fila, indexColumna + 1) * dato)
             .reduce((a, b) => a + b) : this.determinante(vector);
     }
     cambiarColumnaPorEstosDatos(matrix, cambiarPor, columna_index) {

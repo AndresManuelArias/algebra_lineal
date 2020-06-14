@@ -2,7 +2,12 @@ import { assertEquals } from "https://deno.land/std/testing/asserts.ts";
 import {Algebra_lineal} from "../Algebra_lineal.ts"
 console.log(Algebra_lineal)
 let algebra_lineal = new Algebra_lineal();
-
+function comprobarCorrectoDeterminante(sistema:number[][],resutadosDeterminante:number[]):number[][]{
+   let sistemaMatrix:number[][] = sistema.map(a => a.filter((b,i)=> i != a.length-1))
+   let resultados_matrix:number[][] = sistema.map(a => a.filter((b,i)=> i == a.length-1))
+   let convertido = sistemaMatrix.map((fila) => fila.map((columna,i)=> columna*resutadosDeterminante[i])).map((fila)=>fila.reduce((a,b)=>a+b))
+    return [convertido,resultados_matrix.flat()]
+}
 interface DataDeterminantes {
     sistema:number[][]
     determinante:number;
@@ -78,15 +83,15 @@ interface dataTestCramer {
     determinanteN:number;
 }
 let sistemasCrame:SistemaCramer[] = [
-    {sistema:[[2,1,-2,1],[3,-2,1,0],[1,3,-1,2]],
-    dataTest:[
-        {columna:0,determinanteMatrix:[[1,1,-2],[0,-2,1],[2,3,-1]],determinanteN:-7},
-        {columna:1,determinanteMatrix:[[2,1,-2],[3,0,1],[1,2,-1]],determinanteN:-12},
-        {columna:2,determinanteMatrix:[[2,1,1],[3,-2,0],[1,3,2]],determinanteN:-3}
+    // {sistema:[[2,1,-2,1],[3,-2,1,0],[1,3,-1,2]],
+    // dataTest:[
+    //     {columna:0,determinanteMatrix:[[1,1,-2],[0,-2,1],[2,3,-1]],determinanteN:-7},
+    //     {columna:1,determinanteMatrix:[[2,1,-2],[3,0,1],[1,2,-1]],determinanteN:-12},
+    //     {columna:2,determinanteMatrix:[[2,1,1],[3,-2,0],[1,3,2]],determinanteN:-3}
 
-    ] ,determinanteN:-20,
-    cramer:[7/20,3/5,3/20]
-    },
+    // ] ,determinanteN:-20,
+    // cramer:[7/20,3/5,3/20]
+    // },
     {sistema:[[5,-2,-2],[-3,7,-22]],
         dataTest:[
             {columna:0,determinanteMatrix:[[-2,-2],[-22,7]],determinanteN:-58},
@@ -94,7 +99,18 @@ let sistemasCrame:SistemaCramer[] = [
     
         ] ,determinanteN:29,
         cramer:[-2,-4]
-        },
+    },
+    {sistema:[[1,2,4,35000],[4,4,1,34000],[2,3,4,42000]] ,
+        dataTest:[
+            {columna:0,determinanteMatrix:[[35000,2,4],[34000,4,1],[42000,3,4]],determinanteN:3000},
+            {columna:1,determinanteMatrix:[[1,35000,4],[4,34000,1],[2,42000,4]],determinanteN:4000},
+            {columna:2,determinanteMatrix:[[1,2,35000],[4,4,34000],[2,3,42000]],determinanteN:6000},
+
+            
+
+        ] ,determinanteN:1,
+        cramer:[3000,4000,6000]
+    },
 ]
 sistemasCrame.forEach((datos,indexSistema)=>{
     let mapsistema = datos.sistema.map((a,i)=>a.filter((b,d)=>d!= a.length-1))
@@ -112,6 +128,12 @@ sistemasCrame.forEach((datos,indexSistema)=>{
     Deno.test(`sistema index ${indexSistema} cramer resultado`, () => {
         assertEquals( algebra_lineal.metodo_de_cramer(datos.sistema), datos.cramer);
     }); 
+    Deno.test(`validacion cramer con los iguales ${indexSistema} `, () => {
+        let cramer=  algebra_lineal.metodo_de_cramer(datos.sistema)
+        let repuestas = comprobarCorrectoDeterminante(datos.sistema,cramer)
+        assertEquals(repuestas[0] ,repuestas[1] );
+    
+    });  
     
 })
 
@@ -120,9 +142,13 @@ sistemasCrame.forEach((datos,indexSistema)=>{
 
 
 
-// Deno.test("1. cofactor 3,1 ", () => {
-//   assertEquals( algebra_lineal.cofactor(sistemaDatos,3,1), -22);
-// });
+Deno.test("validacion ejercicio 1 C ", () => {
+    let sistema = [[1,2,4,35000],[4,4,1,34000],[2,3,4,42000]] 
+    let cramer=  algebra_lineal.metodo_de_cramer(sistema);
+    let repuestas = comprobarCorrectoDeterminante(sistema,cramer)
+    assertEquals(repuestas[0] ,repuestas[1] );
+
+});
 // Deno.test("1. cofactor 3,3", () => {
 //     assertEquals( algebra_lineal.cofactor(sistemaDatos,3,3), 47);
 // });

@@ -63,14 +63,21 @@ export class Algebra_lineal {
         .map(function (fila) { return fila.filter(function (n, i) { return i !== columna - 1; }); })
         return nuevaMatriz2x2;
     }
+    cofactorSinsigno(matrix:number[][],fila:number,columna:number):number{
+       return this.determinante(this.menor(matrix,fila,columna))
+    }
     cofactor(matrix:number[][],fila:number,columna:number):number{
-       return Math.pow(-1, fila+columna) *this.determinante(this.menor(matrix,fila,columna))
+       return this.signoCofactorSegunFilaColumna(fila,columna)*this.cofactorSinsigno(matrix,fila,columna)
+    }
+    signoCofactorSegunFilaColumna(fila:number,columna:number){
+        return Math.pow(-1, fila+columna)
     }
     determinante(nuevaMatriz2x2:number[][]):number{
         let primerIndice:number=0;
         let segundoIndice:number= 1;
         return nuevaMatriz2x2[0][primerIndice]*nuevaMatriz2x2[1][segundoIndice]-nuevaMatriz2x2[1][primerIndice]*nuevaMatriz2x2[0][segundoIndice];
     }
+
     productoCruz_2X3(vector1:number[],vector2:number[]):number[]{
         let matrix:number[][]=[
             vector1,
@@ -83,24 +90,29 @@ export class Algebra_lineal {
         }
         return vector3;
     }
-
+    quitarColumnaResultado(sistemaDatos:number[][]){
+        return sistemaDatos.map(a => a.filter((b,i)=> i != a.length-1))
+    }
+    agararColumnaResultado(sistemaDatos:number[][]){
+        return sistemaDatos.map(a => a.filter((b,i)=> i == a.length-1))
+    }
     metodo_de_cramer(sistemaDatos:number[][]):number[]{
         debugger
-        let determinante_sistemaMatrix:number[][] = sistemaDatos.map(a => a.filter((b,i)=> i != a.length-1))
+        let determinante_sistemaMatrix:number[][] = this.quitarColumnaResultado(sistemaDatos)
         let determinante_sistema:number =this.determinante_Laplace(determinante_sistemaMatrix)
 
         let determinantesMatrix:number[] = [];
         for (let index = 0; index < determinante_sistemaMatrix[0].length; index++) {
             let nuevaMatrix:number[][] = this.cambiarColumnaPorEstosDatos(determinante_sistemaMatrix,sistemaDatos,index)
-            console.log("nuevaMatrix",nuevaMatrix)
+            // console.log("nuevaMatrix",nuevaMatrix)
             let determinanter:number =this.determinante_Laplace(nuevaMatrix)
             determinantesMatrix.push(determinanter);   
         }
         return determinantesMatrix.map((number)=> number/determinante_sistema)
     }
-    determinante_Laplace(vector:number[][]):number{
-        return vector.length >2? vector[vector.length-1]
-        .map((dato,indexColumna)=>  this.cofactor(vector,vector.length,indexColumna+1)*dato)
+    determinante_Laplace(vector:number[][],fila:number=1):number{
+        return vector.length >2? vector[fila-1]
+        .map((dato,indexColumna)=>  this.cofactor(vector,fila,indexColumna+1)*dato)
         .reduce((a,b)=>a+b):this.determinante(vector)
     }
     cambiarColumnaPorEstosDatos(matrix:number[][],cambiarPor:number[][],columna_index:number):number[][]{
