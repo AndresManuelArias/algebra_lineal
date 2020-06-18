@@ -17,23 +17,15 @@ export class Algebra_lineal {
         }
         return sumas;
     }
-    sumarVector(vector1, vector2) {
-        let sumas = [];
-        if (vector1.length === vector2.length) {
-            sumas = vector1.map((n, i) => {
-                let suma = vector2[i] + n;
-                if (!isNaN(Number(suma))) {
-                    return suma;
-                }
-                else {
-                    throw "El valor no es numerico";
-                }
-            });
-        }
-        else {
-            throw "Los dos vectores no tienen el mismo tamaño ";
-        }
-        return sumas;
+    restarVector(...vectores) {
+        return aritmetica((vector1, vector2) => vector1.map((n1, i) => n1 - vector2[i]), vectores);
+    }
+    sumarVector(...vectores) {
+        debugger
+        let numbero = [1, 2, 3];
+        return aritmetica((vector1, vector2) => {debugger;
+           return  vector1.map((n1, i) => n1 + vector2[i])
+            }, vectores);
     }
     multiplicarVector(escalar, vector) {
         return vector.map((n) => {
@@ -44,6 +36,8 @@ export class Algebra_lineal {
                 throw "El valor no es numerico";
             }
         });
+    }
+    productoEscalar(vector1, vector2) {
     }
     productoPunto(vector1, vector2) {
         let multipliaciones = [];
@@ -122,5 +116,28 @@ export class Algebra_lineal {
         return matrix
             .map((fila, indexFila) => fila.map((dato, indexColumna) => indexColumna == columna_index ? cambiarPor[indexFila][cambiarPor[indexFila].length - 1] : dato));
     }
+}
+function aritmetica(accion, ...vectores) {
+    let vector3 = [];
+    if (vectores.every((vector1) => vector1.length === vectores[0].length)) {
+        debugger
+        vector3 = vectores.reduce((previos, current) => {
+            debugger
+            let acumulado = accion(previos, current);
+            console.log("acumulado", acumulado);
+            return acumulado;
+
+            if (acumulado.every((a) => !isNaN(Number(a)))) {
+                return acumulado;
+            }
+            else {
+                throw "El valor no es numerico";
+            }
+        });
+    }
+    else {
+        throw "Los dos vectores no tienen el mismo tamaño ";
+    }
+    return vector3;
 }
 //Método de Cramer 

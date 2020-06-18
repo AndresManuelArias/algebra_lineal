@@ -6,8 +6,64 @@ function comprobarCorrectoDeterminante(sistema:number[][],resutadosDeterminante:
    let sistemaMatrix:number[][] = sistema.map(a => a.filter((b,i)=> i != a.length-1))
    let resultados_matrix:number[][] = sistema.map(a => a.filter((b,i)=> i == a.length-1))
    let convertido = sistemaMatrix.map((fila) => fila.map((columna,i)=> columna*resutadosDeterminante[i])).map((fila)=>fila.reduce((a,b)=>a+b))
-    return [convertido,resultados_matrix.flat()]
+   return [convertido,resultados_matrix.flat()]
 }
+
+interface Vectores {
+    V:number[][]
+    resultado:number[];
+}
+let vectores:Vectores[] = [
+    {V:[[5,2],[3,8]],resultado:[8,10]},
+    {V:[[-3,5],[2,-3]],resultado:[-1,2]},
+    {V:[[3,8],[2,-3]],resultado:[5,5]},
+    {V:[[-4,-8],[2,-3]],resultado:[-2,-11]},
+    {V:[[5,2],[2,-3],[-4,-8]],resultado:[3,-9]},
+    {V:[[5,2],[3,8],[4,8]],resultado:[12,18]}
+
+
+]
+vectores.forEach((data,index)=>{
+    Deno.test(`sumar  parametros ${index}`, () => {
+        assertEquals(algebra_lineal.sumarVector(...data.V),data.resultado) 
+    });
+})
+
+ vectores= [
+    {V:[[5,2],[3,8]],resultado:[2,-6]},
+    {V:[[-3,5],[2,-3]],resultado:[-5,8]},
+    {V:[[2,-3],[-3,5]],resultado:[5,-8]},
+    {V:[[3,8],[-3,5]],resultado:[6,3]},
+    {V:[[2,-3],[-4,-8]],resultado:[6,5]},
+
+]
+vectores.forEach((data,index)=>{
+    Deno.test(`restar ${index}`, () => {
+        assertEquals(algebra_lineal.restarVector(...data.V),data.resultado) 
+    });
+})
+
+vectores= [
+    {V:[[3,1,-2],[1,1,2]],resultado:[0]},
+    {V:[[2,-5,1],[4,2,2]],resultado:[0]},
+    {V:[[4,-8,12],[-3,-9,+6]],resultado:[132]},
+
+]
+vectores.forEach((data,index)=>{
+    Deno.test(`multiplicar ${index}`, () => {
+        assertEquals(algebra_lineal.productoEscalar(...data.V),data.resultado[0]) 
+    });
+})
+vectores= [
+    {V:[[4,-8,12],[-3,-9,+6]],resultado:[4/-3,]},
+
+]
+vectores.forEach((data,index)=>{
+    Deno.test(`divicion ${index}`, () => {
+        assertEquals(algebra_lineal.diviPrueba(...data.V),data.resultado[0]) 
+    });
+})
+
 interface DataDeterminantes {
     sistema:number[][]
     determinante:number;
@@ -92,6 +148,15 @@ let sistemasCrame:SistemaCramer[] = [
     // ] ,determinanteN:-20,
     // cramer:[7/20,3/5,3/20]
     // },
+    
+    {sistema:[[4,2,116],[1,1,35]],
+        dataTest:[
+            {columna:0,determinanteMatrix:[[116,2],[35,1]],determinanteN:46},
+            {columna:1,determinanteMatrix:[[4,116],[1,35]],determinanteN:24}
+    
+        ] ,determinanteN:2,
+        cramer:[23,12]
+    },   
     {sistema:[[5,-2,-2],[-3,7,-22]],
         dataTest:[
             {columna:0,determinanteMatrix:[[-2,-2],[-22,7]],determinanteN:-58},

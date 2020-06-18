@@ -16,21 +16,11 @@ export class Algebra_lineal {
         }
         return sumas;
     }
-    sumarVector(vector1:number[],vector2:number[]):number[]{
-        let sumas:number[]= [];
-        if(vector1.length === vector2.length){          
-            sumas = vector1.map((n:number,i)=>{
-                let suma= vector2[i]+n;
-                if(!isNaN(Number(suma)) ){
-                    return suma;
-                }else{
-                    throw "El valor no es numerico";      
-                }
-            })    
-        }else {
-            throw "Los dos vectores no tienen el mismo tamaño ";
-        }
-        return sumas;
+    restarVector(...vectores:number[][]):number[]{
+        return  vectores.reduce((previosValue,curenvalue)=> aritmetica(previosValue,curenvalue,(n1:number,n2:number)=>n1-n2) )
+    }
+    sumarVector(...vectores:number[][]):number[]{
+        return  vectores.reduce((previosValue,curenvalue)=> aritmetica(previosValue,curenvalue,(n1:number,n2:number)=>n1+n2) )
     }
     multiplicarVector(escalar:number,vector:number[]):number[]{
         return vector.map((n:number)=>{
@@ -41,6 +31,15 @@ export class Algebra_lineal {
                 }
             })    
     }
+    productoEscalar(...vectores:number[][]):number{
+        return  vectores
+        .reduce((previosValue,curenvalue)=> aritmetica(previosValue,curenvalue,(n1:number,n2:number)=>n1*n2) )
+        .reduce((a,b)=>a+b)
+    }
+    diviPrueba(...vectores:number[][]):number[]{
+        return  vectores
+        .reduce((previosValue,curenvalue)=> aritmetica(previosValue,curenvalue,(n1:number,n2:number)=>n1/n2) )
+    }   
     productoPunto(vector1:number[],vector2:number[]):number{
         let multipliaciones:number[]= [];
         if(vector1.length === vector2.length){          
@@ -119,6 +118,22 @@ export class Algebra_lineal {
         return matrix
             .map((fila,indexFila) => fila.map((dato,indexColumna)=> indexColumna == columna_index?cambiarPor[indexFila][cambiarPor[indexFila].length-1]:dato))          
     }
+}
+function aritmetica(vector1:number[],vector2:number[],accion:(n1:number,n2:number)=>number){
+    let vector3:number[]= [];
+    if(vector1.length === vector2.length){          
+        vector3 = vector1.map((n:number,i)=>{
+            let acumulado= accion(n,vector2[i]);
+            if(!isNaN(Number(acumulado)) ){
+                return acumulado;
+            }else{
+                throw "El valor no es numerico";      
+            }
+        })    
+    }else {
+        throw "Los dos vectores no tienen el mismo tamaño ";
+    }
+    return vector3;
 }
 //Método de Cramer 
 
